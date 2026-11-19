@@ -1,0 +1,408 @@
+{
+  "modelo": "modelB_improved",
+  "nivel": "material",
+  "objetivo": 0.9,
+  "tau": 0.63,
+  "cobertura": 0.7757,
+  "exactitud_bolsa": 0.9654,
+  "exactitud_material": 0.9002,
+  "imagenes_val": 633,
+  "curva": [
+    {
+      "tau": 0.3,
+      "cobertura": 0.9968,
+      "exactitud_material": 0.7971,
+      "exactitud_bolsa": 0.9255
+    },
+    {
+      "tau": 0.31,
+      "cobertura": 0.9937,
+      "exactitud_material": 0.7965,
+      "exactitud_bolsa": 0.9269
+    },
+    {
+      "tau": 0.32,
+      "cobertura": 0.9874,
+      "exactitud_material": 0.7984,
+      "exactitud_bolsa": 0.9296
+    },
+    {
+      "tau": 0.33,
+      "cobertura": 0.9858,
+      "exactitud_material": 0.7981,
+      "exactitud_bolsa": 0.9295
+    },
+    {
+      "tau": 0.34,
+      "cobertura": 0.9826,
+      "exactitud_material": 0.8006,
+      "exactitud_bolsa": 0.9293
+    },
+    {
+      "tau": 0.35,
+      "cobertura": 0.9826,
+      "exactitud_material": 0.8006,
+      "exactitud_bolsa": 0.9293
+    },
+    {
+      "tau": 0.36,
+      "cobertura": 0.9779,
+      "exactitud_material": 0.8029,
+      "exactitud_bolsa": 0.9289
+    },
+    {
+      "tau": 0.37,
+      "cobertura": 0.97,
+      "exactitud_material": 0.8062,
+      "exactitud_bolsa": 0.9332
+    },
+    {
+      "tau": 0.38,
+      "cobertura": 0.9668,
+      "exactitud_material": 0.8088,
+      "exactitud_bolsa": 0.9346
+    },
+    {
+      "tau": 0.39,
+      "cobertura": 0.9605,
+      "exactitud_material": 0.8125,
+      "exactitud_bolsa": 0.9359
+    },
+    {
+      "tau": 0.4,
+      "cobertura": 0.9589,
+      "exactitud_material": 0.8122,
+      "exactitud_bolsa": 0.9357
+    },
+    {
+      "tau": 0.41,
+      "cobertura": 0.9542,
+      "exactitud_material": 0.8129,
+      "exactitud_bolsa": 0.9371
+    },
+    {
+      "tau": 0.42,
+      "cobertura": 0.9431,
+      "exactitud_material": 0.8174,
+      "exactitud_bolsa": 0.938
+    },
+    {
+      "tau": 0.43,
+      "cobertura": 0.94,
+      "exactitud_material": 0.8185,
+      "exactitud_bolsa": 0.9395
+    },
+    {
+      "tau": 0.44,
+      "cobertura": 0.9321,
+      "exactitud_material": 0.8237,
+      "exactitud_bolsa": 0.9458
+    },
+    {
+      "tau": 0.45,
+      "cobertura": 0.9258,
+      "exactitud_material": 0.8276,
+      "exactitud_bolsa": 0.9454
+    },
+    {
+      "tau": 0.46,
+      "cobertura": 0.9242,
+      "exactitud_material": 0.8291,
+      "exactitud_bolsa": 0.9453
+    },
+    {
+      "tau": 0.47,
+      "cobertura": 0.9194,
+      "exactitud_material": 0.8299,
+      "exactitud_bolsa": 0.945
+    },
+    {
+      "tau": 0.48,
+      "cobertura": 0.9068,
+      "exactitud_material": 0.8345,
+      "exactitud_bolsa": 0.9443
+    },
+    {
+      "tau": 0.49,
+      "cobertura": 0.9021,
+      "exactitud_material": 0.8354,
+      "exactitud_bolsa": 0.9475
+    },
+    {
+      "tau": 0.5,
+      "cobertura": 0.891,
+      "exactitud_material": 0.8387,
+      "exactitud_bolsa": 0.9504
+    },
+    {
+      "tau": 0.51,
+      "cobertura": 0.8768,
+      "exactitud_material": 0.8486,
+      "exactitud_bolsa": 0.955
+    },
+    {
+      "tau": 0.52,
+      "cobertura": 0.8689,
+      "exactitud_material": 0.8527,
+      "exactitud_bolsa": 0.9545
+    },
+    {
+      "tau": 0.53,
+      "cobertura": 0.8578,
+      "exactitud_material": 0.8619,
+      "exactitud_bolsa": 0.954
+    },
+    {
+      "tau": 0.54,
+      "cobertura": 0.8468,
+      "exactitud_material": 0.8694,
+      "exactitud_bolsa": 0.9571
+    },
+    {
+      "tau": 0.55,
+      "cobertura": 0.8404,
+      "exactitud_material": 0.8703,
+      "exactitud_bolsa": 0.9568
+    },
+    {
+      "tau": 0.56,
+      "cobertura": 0.8294,
+      "exactitud_material": 0.8781,
+      "exactitud_bolsa": 0.9581
+    },
+    {
+      "tau": 0.57,
+      "cobertura": 0.8246,
+      "exactitud_material": 0.8812,
+      "exactitud_bolsa": 0.9598
+    },
+    {
+      "tau": 0.58,
+      "cobertura": 0.8183,
+      "exactitud_material": 0.8861,
+      "exactitud_bolsa": 0.9614
+    },
+    {
+      "tau": 0.59,
+      "cobertura": 0.812,
+      "exactitud_material": 0.8891,
+      "exactitud_bolsa": 0.9611
+    },
+    {
+      "tau": 0.6,
+      "cobertura": 0.7994,
+      "exactitud_material": 0.8933,
+      "exactitud_bolsa": 0.9644
+    },
+    {
+      "tau": 0.61,
+      "cobertura": 0.7946,
+      "exactitud_material": 0.8926,
+      "exactitud_bolsa": 0.9642
+    },
+    {
+      "tau": 0.62,
+      "cobertura": 0.7836,
+      "exactitud_material": 0.8992,
+      "exactitud_bolsa": 0.9657
+    },
+    {
+      "tau": 0.63,
+      "cobertura": 0.7757,
+      "exactitud_material": 0.9002,
+      "exactitud_bolsa": 0.9654
+    },
+    {
+      "tau": 0.64,
+      "cobertura": 0.7646,
+      "exactitud_material": 0.9029,
+      "exactitud_bolsa": 0.9649
+    },
+    {
+      "tau": 0.65,
+      "cobertura": 0.763,
+      "exactitud_material": 0.9048,
+      "exactitud_bolsa": 0.9669
+    },
+    {
+      "tau": 0.66,
+      "cobertura": 0.7472,
+      "exactitud_material": 0.9133,
+      "exactitud_bolsa": 0.9683
+    },
+    {
+      "tau": 0.67,
+      "cobertura": 0.7441,
+      "exactitud_material": 0.9151,
+      "exactitud_bolsa": 0.9682
+    },
+    {
+      "tau": 0.68,
+      "cobertura": 0.7393,
+      "exactitud_material": 0.9167,
+      "exactitud_bolsa": 0.9679
+    },
+    {
+      "tau": 0.69,
+      "cobertura": 0.733,
+      "exactitud_material": 0.9181,
+      "exactitud_bolsa": 0.9698
+    },
+    {
+      "tau": 0.7,
+      "cobertura": 0.7267,
+      "exactitud_material": 0.9196,
+      "exactitud_bolsa": 0.9696
+    },
+    {
+      "tau": 0.71,
+      "cobertura": 0.7204,
+      "exactitud_material": 0.9254,
+      "exactitud_bolsa": 0.9737
+    },
+    {
+      "tau": 0.72,
+      "cobertura": 0.7109,
+      "exactitud_material": 0.9289,
+      "exactitud_bolsa": 0.9778
+    },
+    {
+      "tau": 0.73,
+      "cobertura": 0.7077,
+      "exactitud_material": 0.9286,
+      "exactitud_bolsa": 0.9777
+    },
+    {
+      "tau": 0.74,
+      "cobertura": 0.6935,
+      "exactitud_material": 0.9294,
+      "exactitud_bolsa": 0.9772
+    },
+    {
+      "tau": 0.75,
+      "cobertura": 0.684,
+      "exactitud_material": 0.9307,
+      "exactitud_bolsa": 0.9792
+    },
+    {
+      "tau": 0.76,
+      "cobertura": 0.6761,
+      "exactitud_material": 0.9322,
+      "exactitud_bolsa": 0.979
+    },
+    {
+      "tau": 0.77,
+      "cobertura": 0.6651,
+      "exactitud_material": 0.9359,
+      "exactitud_bolsa": 0.9786
+    },
+    {
+      "tau": 0.78,
+      "cobertura": 0.654,
+      "exactitud_material": 0.942,
+      "exactitud_bolsa": 0.9807
+    },
+    {
+      "tau": 0.79,
+      "cobertura": 0.6509,
+      "exactitud_material": 0.9417,
+      "exactitud_bolsa": 0.9806
+    },
+    {
+      "tau": 0.8,
+      "cobertura": 0.6398,
+      "exactitud_material": 0.9432,
+      "exactitud_bolsa": 0.9802
+    },
+    {
+      "tau": 0.81,
+      "cobertura": 0.6145,
+      "exactitud_material": 0.946,
+      "exactitud_bolsa": 0.9794
+    },
+    {
+      "tau": 0.82,
+      "cobertura": 0.6082,
+      "exactitud_material": 0.9455,
+      "exactitud_bolsa": 0.9792
+    },
+    {
+      "tau": 0.83,
+      "cobertura": 0.5924,
+      "exactitud_material": 0.9547,
+      "exactitud_bolsa": 0.9867
+    },
+    {
+      "tau": 0.84,
+      "cobertura": 0.5861,
+      "exactitud_material": 0.9569,
+      "exactitud_bolsa": 0.9865
+    },
+    {
+      "tau": 0.85,
+      "cobertura": 0.5735,
+      "exactitud_material": 0.9614,
+      "exactitud_bolsa": 0.9862
+    },
+    {
+      "tau": 0.86,
+      "cobertura": 0.5608,
+      "exactitud_material": 0.9606,
+      "exactitud_bolsa": 0.9859
+    },
+    {
+      "tau": 0.87,
+      "cobertura": 0.5561,
+      "exactitud_material": 0.9602,
+      "exactitud_bolsa": 0.9858
+    },
+    {
+      "tau": 0.88,
+      "cobertura": 0.5419,
+      "exactitud_material": 0.965,
+      "exactitud_bolsa": 0.9854
+    },
+    {
+      "tau": 0.89,
+      "cobertura": 0.5245,
+      "exactitud_material": 0.9729,
+      "exactitud_bolsa": 0.988
+    },
+    {
+      "tau": 0.9,
+      "cobertura": 0.5071,
+      "exactitud_material": 0.9782,
+      "exactitud_bolsa": 0.9907
+    },
+    {
+      "tau": 0.91,
+      "cobertura": 0.4945,
+      "exactitud_material": 0.9808,
+      "exactitud_bolsa": 0.9936
+    },
+    {
+      "tau": 0.92,
+      "cobertura": 0.4676,
+      "exactitud_material": 0.9831,
+      "exactitud_bolsa": 0.9966
+    },
+    {
+      "tau": 0.93,
+      "cobertura": 0.4487,
+      "exactitud_material": 0.9859,
+      "exactitud_bolsa": 0.9965
+    },
+    {
+      "tau": 0.94,
+      "cobertura": 0.4313,
+      "exactitud_material": 0.989,
+      "exactitud_bolsa": 0.9963
+    },
+    {
+      "tau": 0.95,
+      "cobertura": 0.4107,
+      "exactitud_material": 0.9885,
+      "exactitud_bolsa": 0.9962
+    }
+  ]
+}

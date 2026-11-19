@@ -1,0 +1,18 @@
+# Dependencias de los scripts de entrenamiento, conversión y capturas.
+#
+# No forman parte de la imagen de producción: la API sólo necesita
+# onnxruntime (ver requirements.txt). Se instalan así:
+#
+#     uv pip install --python .venv\Scripts\python.exe -r requirements-entrenamiento.txt
+#
+# TensorFlow sólo interviene al convertir el SavedModel que exporta Teachable
+# Machine a ONNX con tf2onnx; el modelo entrenado no se ejecuta con él.
+
+torch==2.15.0
+torchvision==0.29.2
+scikit-learn==1.9.1
+matplotlib==3.11.2
+playwright==1.65.2
+
+tensorflow-cpu==2.21.0
+tf2onnx>=1.17

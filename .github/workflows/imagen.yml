@@ -1,0 +1,105 @@
+name: imagen
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy_tag:
+        description: "Tag a desplegar (vacío = solo build). Ej: v1.0.0"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+# Un push nuevo a main cancela el build anterior; un deploy (tag) no se cancela.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/v') }}
+
+jobs:
+  pruebas:
+    name: Pruebas
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt -r requirements-dev.txt
+      - run: python -m pytest -q
+
+  imagen:
+    name: Imagen en GHCR
+    needs: pruebas
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      sha_tag: ${{ steps.meta.outputs.sha_tag }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      # GHCR exige el nombre en minúsculas.
+      - id: repo
+        run: echo "name=${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+
+      # Tag inmutable del commit: el wrapper solo acepta sha-xxxxxxx o vX.Y.Z.
+      - id: meta
+        run: echo "sha_tag=sha-${GITHUB_SHA:0:7}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v4.2.0
+
+      - uses: docker/login-action@v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: tags
+        uses: docker/metadata-action@v6.2.0
+        with:
+          images: ghcr.io/${{ steps.repo.outputs.name }}
+          tags: |
+            type=raw,value=${{ steps.meta.outputs.sha_tag }}
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=ref,event=tag
+
+      - uses: docker/build-push-action@v7.3.0
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          labels: ${{ steps.tags.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Despliegue en el VPS: solo con un tag vX.Y.Z o un workflow_dispatch con
+  # deploy_tag. El commit a main publica imagen pero no despliega (gate).
+  #
+  # Entra como `deploy-residuos` (ForceCommand → /usr/local/bin/residuos-deploy).
+  # Secretos del repositorio: VPS_HOST, VPS_SSH_PORT, VPS_DEPLOY_SSH_KEY.
+  despliegue:
+    name: Despliegue en el VPS
+    needs: imagen
+    if: ${{ (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')) || (github.event_name == 'workflow_dispatch' && inputs.deploy_tag != '') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: SSH al VPS (usuario deploy-residuos)
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: deploy-residuos
+          key: ${{ secrets.VPS_DEPLOY_SSH_KEY }}
+          port: ${{ secrets.VPS_SSH_PORT || 2277 }}
+          script: residuos-deploy ${{ github.event_name == 'push' && github.ref_name || inputs.deploy_tag }}

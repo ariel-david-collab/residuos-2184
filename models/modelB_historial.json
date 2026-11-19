@@ -1,0 +1,104 @@
+{
+  "clases": [
+    "Cardboard",
+    "Food Organics",
+    "Glass",
+    "Metal",
+    "Miscellaneous Trash",
+    "Paper",
+    "Plastic",
+    "Textile Trash",
+    "Vegetation"
+  ],
+  "epocas": [
+    {
+      "epoca": 1,
+      "train_perdida": 1.5432,
+      "train_exactitud": 0.4703,
+      "val_perdida": 1.1789,
+      "val_exactitud": 0.6193
+    },
+    {
+      "epoca": 2,
+      "train_perdida": 0.8962,
+      "train_exactitud": 0.6893,
+      "val_perdida": 0.8913,
+      "val_exactitud": 0.6888
+    },
+    {
+      "epoca": 3,
+      "train_perdida": 0.6986,
+      "train_exactitud": 0.7448,
+      "val_perdida": 0.7644,
+      "val_exactitud": 0.7378
+    },
+    {
+      "epoca": 4,
+      "train_perdida": 0.5769,
+      "train_exactitud": 0.7919,
+      "val_perdida": 0.6836,
+      "val_exactitud": 0.7583
+    },
+    {
+      "epoca": 5,
+      "train_perdida": 0.5055,
+      "train_exactitud": 0.8177,
+      "val_perdida": 0.6486,
+      "val_exactitud": 0.763
+    },
+    {
+      "epoca": 6,
+      "train_perdida": 0.4602,
+      "train_exactitud": 0.8455,
+      "val_perdida": 0.6267,
+      "val_exactitud": 0.7788
+    },
+    {
+      "epoca": 7,
+      "train_perdida": 0.3955,
+      "train_exactitud": 0.8577,
+      "val_perdida": 0.6129,
+      "val_exactitud": 0.7741
+    },
+    {
+      "epoca": 8,
+      "train_perdida": 0.3615,
+      "train_exactitud": 0.8736,
+      "val_perdida": 0.5931,
+      "val_exactitud": 0.7836
+    },
+    {
+      "epoca": 9,
+      "train_perdida": 0.354,
+      "train_exactitud": 0.8726,
+      "val_perdida": 0.5753,
+      "val_exactitud": 0.7962
+    },
+    {
+      "epoca": 10,
+      "train_perdida": 0.3488,
+      "train_exactitud": 0.8729,
+      "val_perdida": 0.5652,
+      "val_exactitud": 0.7994
+    },
+    {
+      "epoca": 11,
+      "train_perdida": 0.3274,
+      "train_exactitud": 0.8739,
+      "val_perdida": 0.5639,
+      "val_exactitud": 0.7962
+    },
+    {
+      "epoca": 12,
+      "train_perdida": 0.3251,
+      "train_exactitud": 0.8811,
+      "val_perdida": 0.5632,
+      "val_exactitud": 0.7978
+    }
+  ],
+  "mejor": {
+    "perdida": 0.5632297867941443,
+    "epoca": 12,
+    "exactitud": 0.7977883096366508
+  }
+}

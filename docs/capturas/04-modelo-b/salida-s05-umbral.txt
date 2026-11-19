@@ -1,0 +1,12 @@
+Modelo: modelB_improved · modelB_improved.onnx
+Validación: 633 imágenes
+  100/633 imágenes
+  200/633 imágenes
+  300/633 imágenes
+  400/633 imágenes
+  500/633 imágenes
+  600/633 imágenes
+Umbral recomendado: τ = 0.63
+  cobertura 77.6% · material 90.0% · bolsa 96.5%
+  guardado: models\umbral.json
+Clases: Cardboard, Food Organics, Glass, Metal, Miscellaneous Trash, Paper, Plastic, Textile Trash, Vegetation

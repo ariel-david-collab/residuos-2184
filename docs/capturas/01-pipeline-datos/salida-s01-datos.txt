@@ -1,0 +1,29 @@
+Leyendo datos\realwaste\realwaste-main\RealWaste ...
+  imágenes válidas: 4752
+  corruptas:        0
+  duplicados (<= 6 bits): 535
+
+Reparto:
+  train  2951  (70.0%)
+  val     633  (15.0%)
+  test    633  (15.0%)
+
+Por bolsa:
+  blanca   2683
+  negra     716
+  verde     818
+
+Manifiesto: datos\manifiesto.csv
+Resumen:    datos\resumen_datos.json
+
+Exportando subconjunto TM a datos\train_tm_224 ...
+  Cardboard               180
+  Food Organics           180
+  Glass                   180
+  Metal                   180
+  Miscellaneous Trash     180
+  Paper                   180
+  Plastic                 180
+  Textile Trash           180
+  Vegetation              180
+  total 1620

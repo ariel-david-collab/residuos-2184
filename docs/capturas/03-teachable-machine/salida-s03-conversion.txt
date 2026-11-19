@@ -1,0 +1,41 @@
+Extrayendo modelA_tm.zip
+  model.savedmodel · labels.txt
+  clases (9): Cardboard, Food Organics, Glass, Metal, Miscellaneous Trash, Paper, Plastic, Textile Trash, Vegetation
+Convirtiendo a ONNX
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795056870.670830   51404 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795056872.271362   51404 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+  SavedModel: entrada {'sequential_1_input': (None, 224, 224, 3)} · salida {'sequential_3': (None, 9)}
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795056876.769361   18808 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1795056878.242027   18808 port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:From C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\.venv\Lib\site-packages\tf2onnx\tf_loader.py:190: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
+
+2026-11-18 21:54:40,393 - WARNING - From C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\.venv\Lib\site-packages\tf2onnx\tf_loader.py:190: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
+
+2026-11-18 21:54:40,394 - WARNING - '--tag' not specified for saved_model. Using --tag serve
+2026-11-18 21:54:43,363 - INFO - Fingerprint not found. Saved model loading will continue.
+2026-11-18 21:54:43,364 - INFO - path_and_singleprint metric could not be logged. Saved model loading will continue.
+2026-11-18 21:54:43,364 - INFO - Signatures found in model: [serving_default].
+2026-11-18 21:54:43,364 - WARNING - '--signature_def' not specified, using first signature: serving_default
+2026-11-18 21:54:43,364 - INFO - Output names: ['sequential_3']
+WARNING:tensorflow:From C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\.venv\Lib\site-packages\tf2onnx\tf_loader.py:834: The name tf.train.export_meta_graph is deprecated. Please use tf.compat.v1.train.export_meta_graph instead.
+
+2026-11-18 21:54:43,705 - WARNING - From C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\.venv\Lib\site-packages\tf2onnx\tf_loader.py:834: The name tf.train.export_meta_graph is deprecated. Please use tf.compat.v1.train.export_meta_graph instead.
+
+2026-11-18 21:54:43,787 - INFO - Using tensorflow=2.21.0, onnx=1.23.2, tf2onnx=1.17.0/None
+2026-11-18 21:54:43,787 - INFO - Using opset <onnx, 13>
+2026-11-18 21:54:43,839 - INFO - Computed 0 values for constant folding
+2026-11-18 21:54:43,980 - INFO - Optimizing ONNX model
+2026-11-18 21:54:45,178 - INFO - After optimization: BatchNormalization -52 (52->0), Const -248 (359->111), GlobalAveragePool +1 (0->1), Identity -2 (2->0), ReduceMean -1 (1->0), Reshape -17 (17->0), Squeeze +1 (0->1), Transpose -224 (225->1)
+2026-11-18 21:54:45,189 - INFO - 
+2026-11-18 21:54:45,189 - INFO - Successfully converted TensorFlow model C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\models\tm_export\model.savedmodel to ONNX
+2026-11-18 21:54:45,189 - INFO - Model inputs: ['sequential_1_input']
+2026-11-18 21:54:45,189 - INFO - Model outputs: ['sequential_3']
+2026-11-18 21:54:45,189 - INFO - ONNX model is saved at C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\models\modelA_tm.onnx
+  models\modelA_tm.onnx (2087 KB)
+Verificando paridad
+  paridad sobre 18 imágenes: máxima 5.54e-06, media 1.18e-06
+Listo: el ONNX reproduce al modelo exportado.

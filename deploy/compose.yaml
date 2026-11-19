@@ -1,0 +1,46 @@
+# ═══════════════════════════════════════════════════════════
+# Residuos 2184 — una sola imagen (WASM + FastAPI) detrás de Traefik
+#
+# Sigue el patrón de VPS-Infrastructure:
+#   - Traefik termina TLS (red externa `web`, certresolver letsencrypt).
+#   - El contenedor NO publica puertos: solo lo alcanza Traefik.
+#   - El tag desplegado vive en .release.env (lo escribe residuos-deploy).
+#   - DOMINIO y TZ llegan desde .env, materializado por OpenBao
+#     (secret/residuos/prod, campo `content`).
+#
+# Uso en el VPS (lo hace el wrapper, no a mano):
+#   docker compose --env-file .env --env-file .release.env up -d
+# ═══════════════════════════════════════════════════════════
+
+name: residuos
+
+services:
+  residuos:
+    # Sin tag por defecto: fail-closed. Si falta .release.env, Compose aborta
+    # en vez de desplegar :latest sin que nadie lo haya aprobado.
+    image: "ghcr.io/ariel-david-collab/residuos-2184:${RESIDUOS_IMAGE_TAG:?falta RESIDUOS_IMAGE_TAG (ejecutar residuos-deploy)}"
+    container_name: residuos-2184
+    restart: unless-stopped
+    pull_policy: always
+    environment:
+      TZ: ${TZ:-America/Bogota}
+    # Mismos límites que la ficha del proyecto: 2 CPU y 1 GB.
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1g
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.residuos.rule=Host(`${DOMINIO:?falta DOMINIO en .env}`)"
+      - "traefik.http.routers.residuos.entrypoints=websecure"
+      - "traefik.http.routers.residuos.tls=true"
+      - "traefik.http.routers.residuos.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.residuos.middlewares=security-headers@file"
+      - "traefik.http.services.residuos.loadbalancer.server.port=8000"
+
+networks:
+  web:
+    external: true          # la crea el proxy core: docker network create web

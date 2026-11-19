@@ -1,0 +1,36 @@
+
+Modelo: modelB_improved · modelB_improved.onnx
+  500/633 imágenes
+  633/633 imágenes
+  test: exactitud 83.6% · macro F1 0.841 · bolsa 94.9% · AUC 0.987
+  500/2527 imágenes
+  1000/2527 imágenes
+  1500/2527 imágenes
+  2000/2527 imágenes
+  2500/2527 imágenes
+  2527/2527 imágenes
+  TrashNet: material 42.4% · bolsa 92.9% · con τ 57.7% de cobertura
+
+Modelo: modelA_tm · modelA_tm.onnx
+  500/633 imágenes
+  633/633 imágenes
+  test: exactitud 78.2% · macro F1 0.777 · bolsa 91.9% · AUC 0.971
+  500/2527 imágenes
+  1000/2527 imágenes
+  1500/2527 imágenes
+  2000/2527 imágenes
+  2500/2527 imágenes
+  2527/2527 imágenes
+  TrashNet: material 41.0% · bolsa 87.2% · con τ 87.9% de cobertura
+
+Figuras
+  figs\eval_01_matriz_materiales.png
+  figs\eval_02_matriz_bolsas.png
+  figs\eval_03_f1_clases.png
+  figs\eval_04_roc_b.png
+  figs\eval_06_trashnet_b.png
+  figs\eval_04_roc_a.png
+  figs\eval_06_trashnet_a.png
+  figs\eval_05_cobertura_umbral.png
+
+Guardado: C:\Users\Usuario\Documents\Maestria\Actividad 4 - Residuos\models\metrics.json

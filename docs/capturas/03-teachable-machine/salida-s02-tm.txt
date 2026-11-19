@@ -1,0 +1,21 @@
+Clases: 9 · hasta 180 imágenes · 50 épocas a 0.001
+  captura: docs\capturas\03-teachable-machine\01-proyecto-vacio.png
+  captura: docs\capturas\03-teachable-machine\02-clases-definidas.png
+  Cardboard: 180/180 muestras en 1 s
+  Food Organics: 180/180 muestras en 1 s
+  Glass: 180/180 muestras en 1 s
+  Metal: 180/180 muestras en 1 s
+  Miscellaneous Trash: 180/180 muestras en 1 s
+  Paper: 180/180 muestras en 1 s
+  Plastic: 180/180 muestras en 1 s
+  Textile Trash: 180/180 muestras en 1 s
+  Vegetation: 180/180 muestras en 1 s
+  captura: docs\capturas\03-teachable-machine\03-muestras-completas.png
+  captura: docs\capturas\03-teachable-machine\04-ultimas-clases.png
+  captura: docs\capturas\03-teachable-machine\04b-avanzado.png
+  entrenando: 50 épocas
+  captura: docs\capturas\03-teachable-machine\05-entrenamiento-en-curso.png
+  terminado: Modelo preparado (50/50)
+  captura: docs\capturas\03-teachable-machine\06-entrenamiento-terminado.png
+  captura: docs\capturas\03-teachable-machine\07-exportacion.png
+  modelo: models\modelA_tm.zip (7336 KB)

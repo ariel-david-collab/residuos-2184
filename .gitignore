@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+web/target/
+web/dist/
+datos/
+
+# Secretos y estado del despliegue (los materializa OpenBao / el wrapper)
+.env
+deploy/.env
+.release.env

@@ -1,0 +1,112 @@
+#!/bin/bash
+# ═══════════════════════════════════════════════════════════
+# residuos-deploy v1 — wrapper de deploy de Residuos 2184
+#
+# Uso (vía SSH, invocado por GitHub Actions):
+#   residuos-deploy <image_tag>
+#     image_tag = sha-xxxxxxx (build de main) | vX.Y.Z (tag de release)
+#
+# ALCANCE:
+#   - Ejecutado por el usuario `deploy-residuos` bajo ForceCommand.
+#   - Valida $SSH_ORIGINAL_COMMAND contra una allowlist estricta.
+#   - Solo toca /home/morfeo/residuos. No ve las demás apps.
+#   - El tag aprobado queda en .release.env (junto al compose) para que un
+#     `docker compose up -d` posterior no vuelva a :latest.
+#
+# INSTALACIÓN (en el VPS, como root):
+#   sudo install -m 755 -o root -g root residuos-deploy /usr/local/bin/
+# ═══════════════════════════════════════════════════════════
+set -euo pipefail
+
+log() { echo "[$(date -u +%Y-%m-%dT%H:%M:%SZ)] $*"; }
+
+COMPOSE_DIR="/home/morfeo/residuos"
+IMAGE="ghcr.io/ariel-david-collab/residuos-2184"
+RELEASE_FILE="$COMPOSE_DIR/.release.env"
+ENV_FILE="$COMPOSE_DIR/.env"
+
+# ── Parseo estricto de $SSH_ORIGINAL_COMMAND ──
+CMD="${SSH_ORIGINAL_COMMAND:-}"
+IFS=' ' read -r -a ARGS <<< "$CMD"
+
+if [ "${#ARGS[@]}" -ne 2 ] || [ "${ARGS[0]}" != "residuos-deploy" ]; then
+  log "ERROR: comando no permitido: '$CMD'"
+  log "Formato: residuos-deploy <image_tag>   (sha-xxxxxxx | vX.Y.Z)"
+  exit 2
+fi
+
+TAG="${ARGS[1]}"
+
+# Allowlist: el tag viaja como argumento a `docker pull`. Nada más entra.
+if ! [[ "$TAG" =~ ^(sha-[0-9a-f]{7,40}|v[0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+  log "ERROR: tag no permitido: '$TAG' (se espera sha-xxxxxxx o vX.Y.Z)"
+  exit 3
+fi
+
+# ── Validar directorio y archivos del compose ──
+[ -d "$COMPOSE_DIR" ] || { log "ERROR: $COMPOSE_DIR no existe"; exit 4; }
+[ -f "$COMPOSE_DIR/compose.yaml" ] || { log "ERROR: falta $COMPOSE_DIR/compose.yaml"; exit 5; }
+[ -f "$ENV_FILE" ] || { log "ERROR: falta $ENV_FILE (¿OpenBao sincronizó?)"; exit 5; }
+
+DOMINIO="$(sed -n 's/^DOMINIO=//p' "$ENV_FILE" | tail -n1 | tr -d '\r' | tr -d '"')"
+[ -n "$DOMINIO" ] || { log "ERROR: falta DOMINIO en $ENV_FILE"; exit 5; }
+
+cd "$COMPOSE_DIR"
+
+# Escribe KEY=value preservando el resto de claves. Atómico (tmp + mv).
+persist_release_tag() {
+  local key="$1" value="$2" tmp
+  tmp="$(mktemp "${RELEASE_FILE}.XXXXXX" 2>/dev/null)" || return 1
+  if [ -f "$RELEASE_FILE" ]; then
+    grep -v -E "^[[:space:]]*${key}=" "$RELEASE_FILE" > "$tmp" 2>/dev/null || true
+  fi
+  printf '%s=%s\n' "$key" "$value" >> "$tmp"
+  chmod 600 "$tmp" 2>/dev/null || true
+  mv -f "$tmp" "$RELEASE_FILE" 2>/dev/null || { rm -f "$tmp"; return 1; }
+}
+
+SOURCE_IMAGE="$IMAGE:$TAG"
+
+log "Iniciando deploy de Residuos 2184: tag=$TAG"
+log "Pull de imagen: $SOURCE_IMAGE"
+docker pull "$SOURCE_IMAGE"
+
+if persist_release_tag RESIDUOS_IMAGE_TAG "$TAG"; then
+  log "Tag aprobado persistido: $RELEASE_FILE (RESIDUOS_IMAGE_TAG=$TAG)"
+else
+  # Sin el pin, un up -d posterior volvería al tag por defecto: se aborta.
+  log "ERROR: no se pudo escribir $RELEASE_FILE (permisos del directorio)"
+  exit 6
+fi
+
+COMPOSE=(docker compose --env-file "$ENV_FILE" --env-file "$RELEASE_FILE" -f compose.yaml)
+
+log "Recreando contenedor"
+"${COMPOSE[@]}" up -d residuos
+
+# ── Health check de la aplicación ──
+# /api/health no toca el modelo más allá de leer su nombre, y prueba que
+# FastAPI atiende. Reintenta: en el primer deploy Traefik tiene que emitir
+# el certificado (HTTP-01) y eso puede tardar más que el arranque.
+HEALTH_URL="https://$DOMINIO/api/health"
+MAX_ATTEMPTS=12
+RETRY_DELAY=8
+
+log "Health check: $HEALTH_URL (hasta $((MAX_ATTEMPTS * RETRY_DELAY))s)"
+attempt=1
+while ! curl -fsS -o /dev/null --max-time 10 "$HEALTH_URL"; do
+  if [ "$attempt" -ge "$MAX_ATTEMPTS" ]; then
+    log "ERROR: la app no responde en $HEALTH_URL tras $((MAX_ATTEMPTS * RETRY_DELAY))s"
+    log "Diagnóstico:"
+    "${COMPOSE[@]}" ps || true
+    "${COMPOSE[@]}" logs residuos --tail=50 || true
+    exit 7
+  fi
+  log "  intento $attempt/$MAX_ATTEMPTS sin respuesta; reintento en ${RETRY_DELAY}s"
+  sleep "$RETRY_DELAY"
+  attempt=$((attempt + 1))
+done
+
+log "OK: $HEALTH_URL responde 200"
+
+log "Deploy completado: $DOMINIO @ $TAG"

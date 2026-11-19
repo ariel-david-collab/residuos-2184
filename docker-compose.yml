@@ -1,0 +1,18 @@
+# Compose local / standalone: publica 8080 y usa :latest.
+# Producción va por deploy/compose.yaml (Traefik, sin puertos, tag pineado).
+services:
+  residuos:
+    image: ghcr.io/ariel-david-collab/residuos-2184:latest
+    container_name: residuos-2184
+    restart: unless-stopped
+    pull_policy: always
+    # 8080 en el host: no toca el 80/443 que ya usa el reverse proxy del VPS.
+    ports:
+      - "8080:8000"
+    environment:
+      TZ: America/Bogota
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1g

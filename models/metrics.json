@@ -1,0 +1,870 @@
+{
+  "generado": "2026-11-18T22:22:20",
+  "tau": 0.63,
+  "test": "RealWaste test/ (partición reservada, sin uso en entrenamiento ni calibración)",
+  "externo": "TrashNet dataset-resized (dominio externo); material solo en las 5 clases compartidas",
+  "modelos": {
+    "modelB_improved": {
+      "archivo": "models/modelB_improved.onnx",
+      "segundos": 10.4,
+      "test": {
+        "imagenes": 633,
+        "exactitud": 0.8357,
+        "exactitud_top2": 0.951,
+        "log_loss": 0.45,
+        "macro": {
+          "precision": 0.8375,
+          "recall": 0.8484,
+          "f1": 0.8405
+        },
+        "ponderado": {
+          "precision": 0.84,
+          "recall": 0.8357,
+          "f1": 0.8346
+        },
+        "auc_macro": 0.987,
+        "por_clase": [
+          {
+            "clase": "Cardboard",
+            "material": "Cartón",
+            "bolsa": "blanca",
+            "precision": 0.8308,
+            "recall": 0.8308,
+            "f1": 0.8308,
+            "auc": 0.9804,
+            "soporte": 65
+          },
+          {
+            "clase": "Food Organics",
+            "material": "Orgánicos",
+            "bolsa": "verde",
+            "precision": 0.8358,
+            "recall": 0.9492,
+            "f1": 0.8889,
+            "auc": 0.9972,
+            "soporte": 59
+          },
+          {
+            "clase": "Glass",
+            "material": "Vidrio",
+            "bolsa": "blanca",
+            "precision": 0.8448,
+            "recall": 0.9423,
+            "f1": 0.8909,
+            "auc": 0.9969,
+            "soporte": 52
+          },
+          {
+            "clase": "Metal",
+            "material": "Metal",
+            "bolsa": "blanca",
+            "precision": 0.7407,
+            "recall": 0.8696,
+            "f1": 0.8,
+            "auc": 0.9806,
+            "soporte": 92
+          },
+          {
+            "clase": "Miscellaneous Trash",
+            "material": "No aprovechable",
+            "bolsa": "negra",
+            "precision": 0.7705,
+            "recall": 0.7231,
+            "f1": 0.746,
+            "auc": 0.976,
+            "soporte": 65
+          },
+          {
+            "clase": "Paper",
+            "material": "Papel",
+            "bolsa": "blanca",
+            "precision": 0.8824,
+            "recall": 0.8696,
+            "f1": 0.8759,
+            "auc": 0.99,
+            "soporte": 69
+          },
+          {
+            "clase": "Plastic",
+            "material": "Plástico",
+            "bolsa": "blanca",
+            "precision": 0.8812,
+            "recall": 0.712,
+            "f1": 0.7876,
+            "auc": 0.9704,
+            "soporte": 125
+          },
+          {
+            "clase": "Textile Trash",
+            "material": "Textil",
+            "bolsa": "negra",
+            "precision": 0.7674,
+            "recall": 0.7857,
+            "f1": 0.7765,
+            "auc": 0.9921,
+            "soporte": 42
+          },
+          {
+            "clase": "Vegetation",
+            "material": "Vegetación",
+            "bolsa": "verde",
+            "precision": 0.9839,
+            "recall": 0.9531,
+            "f1": 0.9683,
+            "auc": 0.9997,
+            "soporte": 64
+          }
+        ],
+        "matriz_materiales": [
+          [
+            54,
+            2,
+            0,
+            2,
+            1,
+            2,
+            4,
+            0,
+            0
+          ],
+          [
+            1,
+            56,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            49,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            0,
+            2,
+            80,
+            2,
+            0,
+            6,
+            0,
+            0
+          ],
+          [
+            0,
+            4,
+            2,
+            5,
+            47,
+            1,
+            1,
+            5,
+            0
+          ],
+          [
+            3,
+            0,
+            0,
+            1,
+            2,
+            60,
+            1,
+            2,
+            0
+          ],
+          [
+            3,
+            2,
+            4,
+            18,
+            2,
+            4,
+            89,
+            2,
+            1
+          ],
+          [
+            1,
+            0,
+            1,
+            1,
+            5,
+            1,
+            0,
+            33,
+            0
+          ],
+          [
+            0,
+            3,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            61
+          ]
+        ],
+        "bolsas": {
+          "exactitud": 0.9494,
+          "macro": {
+            "precision": 0.937,
+            "recall": 0.9267,
+            "f1": 0.9309
+          },
+          "por_bolsa": [
+            {
+              "bolsa": "blanca",
+              "precision": 0.9631,
+              "recall": 0.9727,
+              "f1": 0.9679,
+              "soporte": 403
+            },
+            {
+              "bolsa": "verde",
+              "precision": 0.9302,
+              "recall": 0.9756,
+              "f1": 0.9524,
+              "soporte": 123
+            },
+            {
+              "bolsa": "negra",
+              "precision": 0.9175,
+              "recall": 0.8318,
+              "f1": 0.8725,
+              "soporte": 107
+            }
+          ],
+          "matriz_bolsas": [
+            [
+              392,
+              5,
+              6
+            ],
+            [
+              1,
+              120,
+              2
+            ],
+            [
+              14,
+              4,
+              89
+            ]
+          ]
+        },
+        "abstencion": {
+          "tau": 0.63,
+          "cobertura": 0.8088,
+          "exactitud_material": 0.918,
+          "exactitud_bolsa": 0.9824
+        }
+      },
+      "trashnet": {
+        "material_compartido": {
+          "clases": [
+            "Cardboard",
+            "Glass",
+            "Metal",
+            "Paper",
+            "Plastic"
+          ],
+          "imagenes": 2390,
+          "exactitud": 0.4238,
+          "macro": {
+            "precision": 0.5678,
+            "recall": 0.4471,
+            "f1": 0.42
+          },
+          "por_clase": [
+            {
+              "clase": "Cardboard",
+              "precision": 0.2891,
+              "recall": 0.7345,
+              "f1": 0.4149,
+              "soporte": 403
+            },
+            {
+              "clase": "Glass",
+              "precision": 0.5115,
+              "recall": 0.3992,
+              "f1": 0.4484,
+              "soporte": 501
+            },
+            {
+              "clase": "Metal",
+              "precision": 0.4617,
+              "recall": 0.6463,
+              "f1": 0.5386,
+              "soporte": 410
+            },
+            {
+              "clase": "Paper",
+              "precision": 0.7926,
+              "recall": 0.2896,
+              "f1": 0.4242,
+              "soporte": 594
+            },
+            {
+              "clase": "Plastic",
+              "precision": 0.7843,
+              "recall": 0.166,
+              "f1": 0.274,
+              "soporte": 482
+            }
+          ],
+          "matriz": [
+            [
+              296,
+              18,
+              35,
+              21,
+              2,
+              31
+            ],
+            [
+              152,
+              200,
+              127,
+              3,
+              13,
+              6
+            ],
+            [
+              89,
+              38,
+              265,
+              3,
+              7,
+              8
+            ],
+            [
+              348,
+              4,
+              41,
+              172,
+              0,
+              29
+            ],
+            [
+              139,
+              131,
+              106,
+              18,
+              80,
+              8
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "con_abstencion": {
+            "tau": 0.63,
+            "cobertura": 0.5766,
+            "exactitud": 0.4898
+          }
+        },
+        "bolsas": {
+          "exactitud": 0.9292,
+          "macro": {
+            "precision": 0.3654,
+            "recall": 0.3458,
+            "f1": 0.349
+          },
+          "por_bolsa": [
+            {
+              "bolsa": "blanca",
+              "precision": 0.9481,
+              "recall": 0.9791,
+              "f1": 0.9634,
+              "soporte": 2390
+            },
+            {
+              "bolsa": "verde",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "soporte": 0
+            },
+            {
+              "bolsa": "negra",
+              "precision": 0.1481,
+              "recall": 0.0584,
+              "f1": 0.0838,
+              "soporte": 137
+            }
+          ],
+          "matriz_bolsas": [
+            [
+              2340,
+              4,
+              46
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              128,
+              1,
+              8
+            ]
+          ],
+          "con_abstencion": {
+            "tau": 0.63,
+            "cobertura": 0.5762,
+            "exactitud": 0.9396
+          }
+        }
+      }
+    },
+    "modelA_tm": {
+      "archivo": "models/modelA_tm.onnx",
+      "segundos": 9.7,
+      "test": {
+        "imagenes": 633,
+        "exactitud": 0.782,
+        "exactitud_top2": 0.9036,
+        "log_loss": 0.9758,
+        "macro": {
+          "precision": 0.7782,
+          "recall": 0.7798,
+          "f1": 0.7768
+        },
+        "ponderado": {
+          "precision": 0.7864,
+          "recall": 0.782,
+          "f1": 0.7826
+        },
+        "auc_macro": 0.9705,
+        "por_clase": [
+          {
+            "clase": "Cardboard",
+            "material": "Cartón",
+            "bolsa": "blanca",
+            "precision": 0.7286,
+            "recall": 0.7846,
+            "f1": 0.7556,
+            "auc": 0.9743,
+            "soporte": 65
+          },
+          {
+            "clase": "Food Organics",
+            "material": "Orgánicos",
+            "bolsa": "verde",
+            "precision": 0.9074,
+            "recall": 0.8305,
+            "f1": 0.8673,
+            "auc": 0.9895,
+            "soporte": 59
+          },
+          {
+            "clase": "Glass",
+            "material": "Vidrio",
+            "bolsa": "blanca",
+            "precision": 0.814,
+            "recall": 0.6731,
+            "f1": 0.7368,
+            "auc": 0.9778,
+            "soporte": 52
+          },
+          {
+            "clase": "Metal",
+            "material": "Metal",
+            "bolsa": "blanca",
+            "precision": 0.7935,
+            "recall": 0.7935,
+            "f1": 0.7935,
+            "auc": 0.9651,
+            "soporte": 92
+          },
+          {
+            "clase": "Miscellaneous Trash",
+            "material": "No aprovechable",
+            "bolsa": "negra",
+            "precision": 0.6508,
+            "recall": 0.6308,
+            "f1": 0.6406,
+            "auc": 0.9309,
+            "soporte": 65
+          },
+          {
+            "clase": "Paper",
+            "material": "Papel",
+            "bolsa": "blanca",
+            "precision": 0.72,
+            "recall": 0.7826,
+            "f1": 0.75,
+            "auc": 0.9729,
+            "soporte": 69
+          },
+          {
+            "clase": "Plastic",
+            "material": "Plástico",
+            "bolsa": "blanca",
+            "precision": 0.8305,
+            "recall": 0.784,
+            "f1": 0.8066,
+            "auc": 0.9535,
+            "soporte": 125
+          },
+          {
+            "clase": "Textile Trash",
+            "material": "Textil",
+            "bolsa": "negra",
+            "precision": 0.6346,
+            "recall": 0.7857,
+            "f1": 0.7021,
+            "auc": 0.9734,
+            "soporte": 42
+          },
+          {
+            "clase": "Vegetation",
+            "material": "Vegetación",
+            "bolsa": "verde",
+            "precision": 0.9242,
+            "recall": 0.9531,
+            "f1": 0.9385,
+            "auc": 0.9973,
+            "soporte": 64
+          }
+        ],
+        "matriz_materiales": [
+          [
+            51,
+            0,
+            0,
+            1,
+            3,
+            7,
+            2,
+            0,
+            1
+          ],
+          [
+            1,
+            49,
+            0,
+            0,
+            3,
+            0,
+            1,
+            3,
+            2
+          ],
+          [
+            3,
+            0,
+            35,
+            3,
+            2,
+            0,
+            9,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            2,
+            73,
+            4,
+            2,
+            6,
+            3,
+            1
+          ],
+          [
+            1,
+            3,
+            1,
+            4,
+            41,
+            5,
+            1,
+            8,
+            1
+          ],
+          [
+            9,
+            0,
+            0,
+            0,
+            2,
+            54,
+            1,
+            3,
+            0
+          ],
+          [
+            4,
+            0,
+            5,
+            10,
+            2,
+            5,
+            98,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            1,
+            5,
+            2,
+            0,
+            33,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            61
+          ]
+        ],
+        "bolsas": {
+          "exactitud": 0.9194,
+          "macro": {
+            "precision": 0.8882,
+            "recall": 0.8909,
+            "f1": 0.8894
+          },
+          "por_bolsa": [
+            {
+              "bolsa": "blanca",
+              "precision": 0.9551,
+              "recall": 0.9504,
+              "f1": 0.9527,
+              "soporte": 403
+            },
+            {
+              "bolsa": "verde",
+              "precision": 0.9417,
+              "recall": 0.9187,
+              "f1": 0.93,
+              "soporte": 123
+            },
+            {
+              "bolsa": "negra",
+              "precision": 0.7679,
+              "recall": 0.8037,
+              "f1": 0.7854,
+              "soporte": 107
+            }
+          ],
+          "matriz_bolsas": [
+            [
+              383,
+              2,
+              18
+            ],
+            [
+              2,
+              113,
+              8
+            ],
+            [
+              16,
+              5,
+              86
+            ]
+          ]
+        },
+        "abstencion": {
+          "tau": 0.63,
+          "cobertura": 0.9226,
+          "exactitud_material": 0.8151,
+          "exactitud_bolsa": 0.9418
+        }
+      },
+      "trashnet": {
+        "material_compartido": {
+          "clases": [
+            "Cardboard",
+            "Glass",
+            "Metal",
+            "Paper",
+            "Plastic"
+          ],
+          "imagenes": 2390,
+          "exactitud": 0.4105,
+          "macro": {
+            "precision": 0.5276,
+            "recall": 0.4099,
+            "f1": 0.4367
+          },
+          "por_clase": [
+            {
+              "clase": "Cardboard",
+              "precision": 0.2212,
+              "recall": 0.4665,
+              "f1": 0.3001,
+              "soporte": 403
+            },
+            {
+              "clase": "Glass",
+              "precision": 0.4555,
+              "recall": 0.4391,
+              "f1": 0.4472,
+              "soporte": 501
+            },
+            {
+              "clase": "Metal",
+              "precision": 0.6791,
+              "recall": 0.4439,
+              "f1": 0.5369,
+              "soporte": 410
+            },
+            {
+              "clase": "Paper",
+              "precision": 0.7655,
+              "recall": 0.4781,
+              "f1": 0.5886,
+              "soporte": 594
+            },
+            {
+              "clase": "Plastic",
+              "precision": 0.5169,
+              "recall": 0.222,
+              "f1": 0.3106,
+              "soporte": 482
+            }
+          ],
+          "matriz": [
+            [
+              188,
+              9,
+              6,
+              38,
+              47,
+              115
+            ],
+            [
+              140,
+              220,
+              62,
+              3,
+              34,
+              42
+            ],
+            [
+              114,
+              49,
+              182,
+              28,
+              13,
+              24
+            ],
+            [
+              269,
+              14,
+              3,
+              284,
+              6,
+              18
+            ],
+            [
+              139,
+              191,
+              15,
+              18,
+              107,
+              12
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ],
+          "con_abstencion": {
+            "tau": 0.63,
+            "cobertura": 0.8791,
+            "exactitud": 0.4255
+          }
+        },
+        "bolsas": {
+          "exactitud": 0.8718,
+          "macro": {
+            "precision": 0.3468,
+            "recall": 0.3531,
+            "f1": 0.3477
+          },
+          "por_bolsa": [
+            {
+              "bolsa": "blanca",
+              "precision": 0.9495,
+              "recall": 0.9134,
+              "f1": 0.9311,
+              "soporte": 2390
+            },
+            {
+              "bolsa": "verde",
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "soporte": 0
+            },
+            {
+              "bolsa": "negra",
+              "precision": 0.0909,
+              "recall": 0.146,
+              "f1": 0.112,
+              "soporte": 137
+            }
+          ],
+          "matriz_bolsas": [
+            [
+              2183,
+              7,
+              200
+            ],
+            [
+              0,
+              0,
+              0
+            ],
+            [
+              116,
+              1,
+              20
+            ]
+          ],
+          "con_abstencion": {
+            "tau": 0.63,
+            "cobertura": 0.8785,
+            "exactitud": 0.8779
+          }
+        }
+      }
+    }
+  }
+}

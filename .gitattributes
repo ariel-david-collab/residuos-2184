@@ -1,0 +1,11 @@
+# Los scripts se ejecutan en Linux: forzar LF al hacer checkout.
+* text=auto
+*.sh text eol=lf
+deploy/residuos-deploy text eol=lf
+
+# Artefactos binarios: sin diffs de texto.
+*.onnx binary
+*.zip binary
+*.pt binary
+*.png binary
+*.jpg binary
