@@ -24,3 +24,7 @@ informe/*.synctex.gz
 
 # Revisión visual temporal del informe
 tmp_revision/
+
+# Renders temporales de las diapositivas
+docs/diapositivas/tmp_render/
+docs/diapositivas/_*.png
