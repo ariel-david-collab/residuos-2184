@@ -150,8 +150,9 @@ El despliegue sigue el patrón de
 [`VPS-Infrastructure`](https://github.com/ariel-david-collab/vps-infrastructure):
 Traefik + red `web`, imagen de GHCR pineada en `.release.env`, `.env`
 materializado desde **OpenBao** y usuario `deploy-residuos` con
-`ForceCommand`. El contenedor **no publica puertos**. Procedimiento completo en
-[`docs/despliegue.md`](docs/despliegue.md); los archivos viven en
+`ForceCommand`. El runner entra por un nodo efímero de Tailscale, porque el SSH
+público está cerrado. El contenedor **no publica puertos**. Procedimiento
+completo en [`docs/despliegue.md`](docs/despliegue.md); los archivos viven en
 [`deploy/`](deploy/).
 
 La cámara del navegador exige HTTPS, así que en producción se entra por el

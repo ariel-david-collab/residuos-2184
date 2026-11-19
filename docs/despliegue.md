@@ -159,6 +159,16 @@ gh secret set VPS_SSH_PORT --body "2277"
 gh secret set VPS_DEPLOY_SSH_KEY < "$HOME/.ssh/deploy_residuos_key"
 ```
 
+El cliente OAuth necesita el scope **Auth Keys (Write)** y el tag `tag:ci`. Si
+el tag todavía no existe, primero en *Access controls*:
+
+```json
+"tagOwners": { "tag:ci": ["autogroup:admin"] }
+```
+
+En producción (19 nov 2026) los cinco secretos están cargados y
+`VPS_TAILSCALE_HOST` quedó con la IP del tailnet, `100.68.224.60`.
+
 ### 3.6 Credenciales de GHCR (solo si el paquete es privado)
 
 `setup-deploy-user.sh` copia `/home/deploy/.docker/config.json` si existe. Si
@@ -204,6 +214,10 @@ llega a producción.
 ```bash
 git tag v1.0.0 && git push origin v1.0.0   # dispara el deploy
 ```
+
+Probado de punta a punta el 19 nov 2026 con `workflow_dispatch`
+(`deploy_tag=sha-3b87c8a`): el nodo efímero se conectó, el wrapper desplegó el
+tag y el health check respondió 200; el job de despliegue tardó 14 s.
 
 ## 6. Verificación
 
