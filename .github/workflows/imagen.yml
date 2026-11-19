@@ -86,8 +86,12 @@ jobs:
   # Despliegue en el VPS: solo con un tag vX.Y.Z o un workflow_dispatch con
   # deploy_tag. El commit a main publica imagen pero no despliega (gate).
   #
-  # Entra como `deploy-residuos` (ForceCommand → /usr/local/bin/residuos-deploy).
-  # Secretos del repositorio: VPS_HOST, VPS_SSH_PORT, VPS_DEPLOY_SSH_KEY.
+  # El SSH público (2277) está cerrado: el runner entra por un nodo efímero
+  # de Tailscale, igual que openlabs-console. Luego SSH como `deploy-residuos`
+  # (ForceCommand → /usr/local/bin/residuos-deploy).
+  #
+  # Secretos del repositorio: TS_OAUTH_CLIENT_ID, TS_OAUTH_SECRET,
+  # VPS_TAILSCALE_HOST, VPS_SSH_PORT y VPS_DEPLOY_SSH_KEY.
   despliegue:
     name: Despliegue en el VPS
     needs: imagen
@@ -95,10 +99,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: SSH al VPS (usuario deploy-residuos)
+      - name: Conectar a Tailscale (nodo efímero CI)
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: SSH al VPS vía Tailscale (usuario deploy-residuos)
         uses: appleboy/ssh-action@v1.2.5
         with:
-          host: ${{ secrets.VPS_HOST }}
+          host: ${{ secrets.VPS_TAILSCALE_HOST }}
           username: deploy-residuos
           key: ${{ secrets.VPS_DEPLOY_SSH_KEY }}
           port: ${{ secrets.VPS_SSH_PORT || 2277 }}

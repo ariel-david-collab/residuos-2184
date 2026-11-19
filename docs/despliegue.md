@@ -119,10 +119,14 @@ echo "restrict $(cat "$HOME/.ssh/deploy_residuos_key.pub")" \
   | ssh morfeo@<VPS> 'sudo tee -a /home/deploy-residuos/.ssh/authorized_keys >/dev/null'
 ```
 
-Cargar los secretos del repositorio:
+El puerto SSH público del VPS está cerrado: el CI entra por un nodo efímero
+de Tailscale. Crear un cliente OAuth en Tailscale (Settings → OAuth clients)
+con el tag `tag:ci` y cargar los secretos del repositorio:
 
 ```bash
-gh secret set VPS_HOST --body "<IP o dominio del VPS>"
+gh secret set TS_OAUTH_CLIENT_ID --body "<client-id>"
+gh secret set TS_OAUTH_SECRET --body "<client-secret>"
+gh secret set VPS_TAILSCALE_HOST --body "srv1007410"   # MagicDNS o 100.x.y.z
 gh secret set VPS_SSH_PORT --body "2277"
 gh secret set VPS_DEPLOY_SSH_KEY < "$HOME/.ssh/deploy_residuos_key"
 ```
