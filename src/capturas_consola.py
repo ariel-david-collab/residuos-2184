@@ -30,6 +30,8 @@ COMANDOS = {
     "salida-s04-modelo-b.txt": "python src\\s04_modelo_b.py",
     "salida-s05-umbral.txt": "python src\\s05_calibrar_umbral.py",
     "salida-s06-evaluacion.txt": "python src\\s06_evaluar.py",
+    "salida-deploy.txt": 'ssh deploy-residuos@srv1007410 "residuos-deploy sha-3b87c8a"',
+    "salida-verificacion.txt": "ssh morfeo@srv1007410 'sudo bash verificar.sh'",
 }
 
 PLANTILLA = """<!DOCTYPE html>

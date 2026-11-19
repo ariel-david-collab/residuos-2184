@@ -1,0 +1,14 @@
+[2026-11-19T06:19:25Z] Iniciando deploy de Residuos 2184: tag=sha-3b87c8a
+[2026-11-19T06:19:25Z] Pull de imagen: ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a
+sha-3b87c8a: Pulling from ariel-david-collab/residuos-2184
+Digest: sha256:599d67e9f5b6d364b04129533dedba16a8cfda56cd5af81379123af8ccea3dc2
+Status: Image is up to date for ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a
+ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a
+[2026-11-19T06:19:25Z] Tag aprobado persistido: /home/morfeo/residuos/.release.env (RESIDUOS_IMAGE_TAG=sha-3b87c8a)
+[2026-11-19T06:19:25Z] Recreando contenedor
+ Image ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a Pulling 
+ Image ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a Pulled 
+ Container residuos-2184 Running 
+[2026-11-19T06:19:26Z] Health check: https://residuos.open-laboratories.com/api/health (hasta 96s)
+[2026-11-19T06:19:26Z] OK: https://residuos.open-laboratories.com/api/health responde 200
+[2026-11-19T06:19:26Z] Deploy completado: residuos.open-laboratories.com @ sha-3b87c8a

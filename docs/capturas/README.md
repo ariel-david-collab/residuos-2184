@@ -102,6 +102,27 @@ En `figs/`, a 300 dpi, generadas por `src/s06_evaluar.py`:
 - `eval_05_cobertura_umbral.png`: cobertura frente a exactitud al mover τ (sobre `val/`).
 - `eval_06_trashnet_a.png` y `eval_06_trashnet_b.png`: recall por material en TrashNet frente a `test/`, y el efecto de la abstención.
 
+### `06-despliegue/`
+
+Producción en **https://residuos.open-laboratories.com**: Traefik termina TLS,
+la imagen se consume desde GHCR y el contenedor no publica puertos.
+
+| Archivo | Qué muestra |
+|---|---|
+| `01-sitio-escritorio.png` | La aplicación servida por HTTPS desde el VPS, a 1440×900. |
+| `02-sitio-movil.png` | La misma página a 390×844. |
+| `03-actions.png` | Historial de GitHub Actions: pruebas, escaneo de secretos, build y publicación en GHCR. |
+| `04-ghcr.png` | Paquete público `residuos-2184` con los tags `sha-*` y `latest`. |
+| `salida-deploy.txt` | Log literal del wrapper `residuos-deploy`: pull de la imagen, tag pineado en `.release.env`, recreación del contenedor y health check por HTTPS. |
+| `salida-deploy.png` | El mismo log dibujado como terminal. |
+| `salida-verificacion.txt` | Verificación en el VPS: contenedor `healthy`, sin puertos publicados, health y catálogo por HTTPS, redirección 301, certificado Let's Encrypt y una predicción real. |
+| `salida-verificacion.png` | El mismo log dibujado como terminal. |
+
+Las cuatro primeras las genera `src/capturas_despliegue.py` (Playwright sobre
+las páginas públicas); los logs se dibujan con `src/capturas_consola.py`. En el
+historial de Actions quedan también los dos fallos del primer push —imagen y
+escaneo de secretos—, conservados como evidencia de la depuración del CI.
+
 ## Figuras del análisis exploratorio
 
 No están en esta carpeta sino en `figs/`, generadas por `src/s02_eda.py` a
@@ -120,6 +141,7 @@ Con la aplicación servida en `http://127.0.0.1:8077`:
 .\.venv\Scripts\python.exe src\s06_evaluar.py      # métricas y figuras de evaluación
 .\.venv\Scripts\python.exe src\capturas_consola.py # logs como terminal
 .\.venv\Scripts\python.exe src\capturas_ui.py      # interfaz, escritorio y móvil
+.\.venv\Scripts\python.exe src\capturas_despliegue.py  # sitio público, Actions y GHCR
 ```
 
 `capturas_ui.py` acepta `--base` para apuntar a otro servidor; al terminar el

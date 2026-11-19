@@ -1,0 +1,22 @@
+$ docker ps --filter name=residuos-2184
+NAMES           IMAGE                                                  STATUS
+residuos-2184   ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a   Up 5 minutes (healthy)
+$ docker inspect -f "health={{.State.Health.Status}} restart={{.RestartCount}}" residuos-2184
+health=healthy restart=0
+$ cat /home/morfeo/residuos/.release.env
+RESIDUOS_IMAGE_TAG=sha-3b87c8a
+$ docker inspect -f "{{json .NetworkSettings.Ports}}" residuos-2184
+{"8000/tcp":null}
+$ curl -fsS https://residuos.open-laboratories.com/api/health
+{"ok":true,"modelo":"modelB_improved","clases":9}
+$ curl -fsS https://residuos.open-laboratories.com/api/catalogo | jq -c "{tau: .tau_sugerido, metricas}"
+{"tau":0.63,"metricas":{"imagenes":633,"exactitud_material":0.8357,"exactitud_bolsa":0.9494,"tau":0.63}}
+$ curl -s -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://residuos.open-laboratories.com/
+301 -> https://residuos.open-laboratories.com/
+$ echo | openssl s_client -connect residuos.open-laboratories.com:443 -servername residuos.open-laboratories.com | openssl x509 -noout -issuer -subject -dates
+issuer=C=US, O=Let's Encrypt, CN=YR1
+subject=CN=residuos.open-laboratories.com
+notBefore=Nov 19 05:16:35 2026 GMT
+notAfter=Feb 17 05:16:34 2027 GMT
+$ curl -fsS -X POST -F "archivo=@/tmp/prueba-residuos.jpg" -F "tau=0.63" https://residuos.open-laboratories.com/api/predict | jq -c "{material, bolsa_nombre, confianza, abstenido, latencia_ms}"
+{"material":"Vidrio","bolsa_nombre":"Blanca","confianza":0.7927,"abstenido":false,"latencia_ms":5.3}
