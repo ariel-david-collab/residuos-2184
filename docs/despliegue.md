@@ -202,13 +202,15 @@ variables. Usar `docker compose up -d` (o el wrapper).
 
 ## 8. Escaneo de secretos (gitleaks)
 
-`.github/workflows/secret-scan.yml` es un caller de 6 líneas del workflow
-reutilizable `ariel-david-collab/ci-workflows/.github/workflows/secret-scan.yml@v1`.
-Escanea el rango del push a `main` con gitleaks v8.30.1 y `--redact`.
+`.github/workflows/secret-scan.yml` corre gitleaks v8.30.1 sobre el rango del
+push o del pull request, con `--redact`. Es el mismo job del workflow
+reutilizable `ariel-david-collab/ci-workflows`, pero **inline**: GitHub no
+permite que un repositorio público llame a un workflow reutilizable que vive en
+un repositorio privado. Si el repo pasara a privado, se puede volver al caller
+de 6 líneas.
 
-Requisito del repo central: Actions → Access debe permitir "Accessible from
-repositories owned by `ariel-david-collab`". El repo es público, así que
-GitHub además tiene secret scanning y push protection gratis.
+El repo es público, así que además tiene secret scanning y push protection de
+GitHub gratis.
 
 ## 9. Notas de seguridad
 
