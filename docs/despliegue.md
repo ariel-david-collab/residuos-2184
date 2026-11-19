@@ -67,8 +67,8 @@ sudo bash /home/morfeo/deploy-residuos/setup-deploy-user.sh
 ```
 
 El script crea `deploy-residuos`, instala el wrapper y el drop-in, valida
-`sshd -t` y recarga SSH. Si `/home/deploy/.ssh/authorized_keys` tiene la llave
-del CI, la copia; si no, el paso 3.5 la agrega.
+`sshd -t` y recarga SSH. No copia llaves de otros usuarios: la llave del CI se
+agrega en el paso 3.5.
 
 ### 3.3 Cargar el `.env` en OpenBao
 

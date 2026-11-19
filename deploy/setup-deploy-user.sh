@@ -12,14 +12,14 @@
 #   4. Instala el drop-in sshd 13-deploy-residuos.conf y valida sshd -t.
 #   5. Prepara ~/.ssh con permisos correctos.
 #   6. Ajusta permisos de /home/morfeo/residuos (.env y .release.env).
-#   7. Copia la key del CI y las credenciales de GHCR de `deploy` si faltan.
+#   7. Copia las credenciales de GHCR de `deploy` si faltan.
 #   8. Recarga sshd.
 #
 # REQUISITOS PREVIOS:
 #   - El directorio /home/morfeo/residuos/ con compose.yaml y .env
 #     (el .env lo materializa OpenBao; ver docs/despliegue.md).
-#   - La public key del CI en /home/deploy/.ssh/authorized_keys (se copia)
-#     o pegarla a mano en /home/deploy-residuos/.ssh/authorized_keys.
+#   - La public key del CI se pega a mano en
+#     /home/deploy-residuos/.ssh/authorized_keys (paso 3.5 de la guía).
 # ═══════════════════════════════════════════════════════════
 set -euo pipefail
 
@@ -112,19 +112,10 @@ else
   log "  .release.env: 664 $DEPLOY_USER:$DEPLOY_USER"
 fi
 
-# ── 7. Key del CI y credenciales de GHCR ──
-log "7/8 Key del CI y credenciales de GHCR"
-DEPLOY_AK="/home/deploy/.ssh/authorized_keys"
-RES_AK="$DEPLOY_ROOT/.ssh/authorized_keys"
-if [ -s "$RES_AK" ]; then
-  log "  $RES_AK ya tiene contenido, no se toca"
-elif [ -s "$DEPLOY_AK" ]; then
-  install -m 600 -o "$DEPLOY_USER" -g "$DEPLOY_USER" "$DEPLOY_AK" "$RES_AK"
-  log "  key copiada desde $DEPLOY_AK (misma key del CI)"
-else
-  log "  ⚠ Pegar la public key del CI en $RES_AK"
-fi
-
+# ── 7. Credenciales de GHCR ──
+# La llave del CI no se copia de otros usuarios: cada app tiene la suya
+# (least privilege). Se agrega a mano en authorized_keys.
+log "7/8 Credenciales de GHCR para $DEPLOY_USER"
 DOCKER_CFG_SRC="/home/deploy/.docker/config.json"
 DOCKER_CFG_DST="$DEPLOY_ROOT/.docker/config.json"
 if [ -s "$DOCKER_CFG_DST" ]; then
@@ -136,6 +127,12 @@ elif [ -s "$DOCKER_CFG_SRC" ]; then
 else
   log "  ⚠ Sin credenciales GHCR: si la imagen no es pública, autenticar una vez"
   log "    como $DEPLOY_USER con 'docker login ghcr.io'"
+fi
+
+if [ -s "$DEPLOY_ROOT/.ssh/authorized_keys" ]; then
+  log "  authorized_keys ya tiene una llave"
+else
+  log "  ⚠ Pegar la public key del CI en $DEPLOY_ROOT/.ssh/authorized_keys"
 fi
 
 # AllowUsers en el hardening global puede excluir al usuario nuevo.
@@ -163,7 +160,7 @@ fi
 log ""
 log "═══════════════════════════════════════════════════════════"
 log "✅ Setup completado. PENDIENTES:"
-log "  1. Public key del CI en $RES_AK (si no se copió)"
+log "  1. Public key del CI en $DEPLOY_ROOT/.ssh/authorized_keys (si no está)"
 log "  2. Secrets en GitHub: VPS_HOST, VPS_SSH_PORT, VPS_DEPLOY_SSH_KEY"
 log "  3. Primer deploy: residuos-deploy sha-xxxxxxx (o push de un tag vX.Y.Z)"
 log "═══════════════════════════════════════════════════════════"
