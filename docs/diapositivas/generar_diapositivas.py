@@ -4,9 +4,10 @@ Plantilla: azul #003057 y amarillo #F2A900 del manual de marca de la
 Universidad de La Salle, tipografía Franklin Gothic para titulares y Segoe UI
 para texto corrido.
 
-Las notas del orador se extraen de los guiones en `docs/guiones/`, de modo que
-la presentación y el discurso no se puedan desincronizar: si cambia un guion,
-se vuelve a ejecutar este script y las notas se actualizan solas.
+Las notas del orador se extraen de `guion_por_diapositiva.md`, que tiene un
+bloque de texto por diapositiva: cada nota dice solo lo que corresponde decir
+allí. Si cambia el guion, se vuelve a ejecutar este script y las notas se
+actualizan solas.
 
 Uso:
     .venv\\Scripts\\python.exe docs/diapositivas/generar_diapositivas.py
@@ -27,7 +28,6 @@ from pptx.util import Inches, Pt
 RAIZ = Path(__file__).resolve().parents[2]
 FIGS = Path(__file__).resolve().parent / "figs"
 INFORME = RAIZ / "informe" / "figs"
-GUIONES = RAIZ / "docs" / "guiones"
 SALIDA = Path(__file__).resolve().parent / "residuos_2184_sustentacion.pptx"
 
 # --- paleta institucional -------------------------------------------------
@@ -190,42 +190,14 @@ def cabecera(slide, kicker, titulo, size=28, regla_y=1.53):
 
 
 # --- notas del orador -----------------------------------------------------
-def seccion(ruta: Path, prefijo: str) -> str:
-    lineas = ruta.read_text(encoding="utf-8").splitlines()
-    inicio = None
-    for i, linea in enumerate(lineas):
-        if linea.startswith("### ") and linea[4:].strip().startswith(prefijo):
-            inicio = i + 1
-            break
-    if inicio is None:
-        raise ValueError(f"No encuentro el bloque {prefijo} en {ruta.name}")
-    cuerpo = []
-    for linea in lineas[inicio:]:
-        if linea.startswith("### ") or linea.strip() == "---":
-            break
-        cuerpo.append(linea)
-    return "\n".join(cuerpo).strip()
+GUION_SLIDES = Path(__file__).resolve().parent / "guion_por_diapositiva.md"
 
 
-def limpiar(texto: str) -> str:
-    texto = texto.replace("**", "")
-    texto = re.sub(r"\*\[(.+?)\]\*", r"[\1]", texto, flags=re.S)
-    return texto.strip()
-
-
-def bloque(ruta: Path, prefijo: str, rango=None) -> str:
-    parrafos = [p.strip() for p in re.split(r"\n\s*\n", seccion(ruta, prefijo)) if p.strip()]
-    if rango is not None:
-        parrafos = parrafos[rango[0] : rango[1]]
-    return "\n\n".join(limpiar(p) for p in parrafos)
-
-
-def notas(slide, bloques):
-    partes = []
-    for etiqueta, ruta, prefijo, rango in bloques:
-        cuerpo = prefijo if ruta is None else bloque(ruta, prefijo, rango)
-        partes.append(f"== {etiqueta} ==\n{cuerpo}")
-    slide.notes_slide.notes_text_frame.text = "\n\n".join(partes)
+def guion_por_diapositiva() -> dict[int, str]:
+    """Devuelve el texto que se dice en cada diapositiva, indexado por número."""
+    texto = GUION_SLIDES.read_text(encoding="utf-8")
+    partes = re.split(r"^## (\d+) · .*$", texto, flags=re.M)
+    return {int(partes[i]): partes[i + 1].strip() for i in range(1, len(partes), 2)}
 
 
 # --- diapositivas ---------------------------------------------------------
@@ -240,7 +212,7 @@ def portada(prs):
         1.02,
         10.0,
         0.26,
-        "PROYECTO DE GRADO · MAESTRÍA EN INTELIGENCIA ARTIFICIAL",
+        "TAREA · MAESTRÍA EN INTELIGENCIA ARTIFICIAL",
         10.5,
         AMARILLO,
         bold=True,
@@ -282,15 +254,6 @@ def portada(prs):
         "9FB3C6",
     )
     txt(s, 9.15, 5.65, 3.6, 1.5, "2184", 88, AZUL_SUAVE, font=DISPLAY, align=PP_ALIGN.RIGHT, wrap=False)
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 0:00–0:40 · Ariel", GUIONES / "guion_sustentacion_integrado_9m30s.md", "0:00", None),
-            ("INDIVIDUAL ARIEL · 0:00–0:50", GUIONES / "guion_individual_ariel_9m.md", "0:00", None),
-            ("INDIVIDUAL JOSÉ · 0:00–0:50", GUIONES / "guion_individual_jose_9m.md", "0:00", None),
-        ],
-    )
     return s
 
 
@@ -357,14 +320,6 @@ def problema(prs):
         AZUL,
         line=1.2,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 0:00–0:40 (continúa)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "0:00", None),
-            ("INDIVIDUAL ARIEL · 0:00–0:50", GUIONES / "guion_individual_ariel_9m.md", "0:00", None),
-        ],
-    )
     return s
 
 
@@ -407,14 +362,6 @@ def datos(prs):
         9,
         GRIS_CLARO,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 0:40–1:50 (datos)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "0:40", (0, 1)),
-            ("INDIVIDUAL ARIEL · 0:50–2:20", GUIONES / "guion_individual_ariel_9m.md", "0:50", None),
-        ],
-    )
     return s
 
 
@@ -449,14 +396,6 @@ def proyeccion(prs):
         13.5,
         TINTA,
         line=1.22,
-    )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 0:40–1:50 (proyección)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "0:40", (1, 9)),
-            ("INDIVIDUAL ARIEL · 2:20–3:20", GUIONES / "guion_individual_ariel_9m.md", "2:20", None),
-        ],
     )
     return s
 
@@ -516,14 +455,6 @@ def modelos(prs):
         TINTA,
         line=1.15,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 1:50–2:50 · Ariel", GUIONES / "guion_sustentacion_integrado_9m30s.md", "1:50", None),
-            ("INDIVIDUAL ARIEL · 3:20–5:00", GUIONES / "guion_individual_ariel_9m.md", "3:20", None),
-        ],
-    )
     return s
 
 
@@ -554,14 +485,6 @@ def umbral(prs):
         11.5,
         TINTA,
         line=1.2,
-    )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 2:50–3:40 · Ariel", GUIONES / "guion_sustentacion_integrado_9m30s.md", "2:50", None),
-            ("INDIVIDUAL ARIEL · 5:00–6:20", GUIONES / "guion_individual_ariel_9m.md", "5:00", None),
-        ],
     )
     return s
 
@@ -652,14 +575,6 @@ def resultados(prs):
         AZUL,
         bold=True,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 3:40–4:45 · Ariel", GUIONES / "guion_sustentacion_integrado_9m30s.md", "3:40", None),
-            ("INDIVIDUAL ARIEL · 6:20–8:20 (comparación global)", GUIONES / "guion_individual_ariel_9m.md", "6:20", (0, 1)),
-        ],
-    )
     return s
 
 
@@ -714,13 +629,6 @@ def por_clase(prs):
         GRIS,
         line=1.2,
     )
-
-    notas(
-        s,
-        [
-            ("INDIVIDUAL ARIEL · 6:20–8:20 (por clase)", GUIONES / "guion_individual_ariel_9m.md", "6:20", (1, 2)),
-        ],
-    )
     return s
 
 
@@ -767,18 +675,6 @@ def bolsas(prs):
         line=1.25,
         space=4,
     )
-
-    notas(
-        s,
-        [
-            (
-                "INDIVIDUAL ARIEL · 6:20–8:20 (bolsa y costo del error)",
-                GUIONES / "guion_individual_ariel_9m.md",
-                "6:20",
-                (2, 6),
-            ),
-        ],
-    )
     return s
 
 
@@ -800,25 +696,6 @@ def relevo(prs):
         AZUL_PALIDO,
     )
     txt(s, 9.05, 5.55, 3.9, 1.5, "04:45", 76, AZUL_SUAVE, font=DISPLAY, align=PP_ALIGN.RIGHT, wrap=False)
-
-    notas(
-        s,
-        [
-            (
-                "RELEVO · José toma la palabra",
-                None,
-                "Ariel cede la palabra sin pausa larga. José retoma con «Gracias, Ariel» y "
-                "arranca el bloque de arquitectura (4:45 del guion integrado).",
-                None,
-            ),
-            (
-                "INDIVIDUAL JOSÉ · apertura",
-                GUIONES / "guion_individual_jose_9m.md",
-                "0:00",
-                None,
-            ),
-        ],
-    )
     return s
 
 
@@ -865,14 +742,6 @@ def arquitectura(prs):
         GRIS,
         line=1.2,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 4:45–5:20 · José", GUIONES / "guion_sustentacion_integrado_9m30s.md", "4:45", None),
-            ("INDIVIDUAL JOSÉ · 0:50–2:20", GUIONES / "guion_individual_jose_9m.md", "0:50", None),
-        ],
-    )
     return s
 
 
@@ -910,14 +779,6 @@ def interfaz(prs):
         "Captura real de la aplicación en producción · residuos.open-laboratories.com",
         8.5,
         GRIS_CLARO,
-    )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 5:20–6:40 (interfaz y demo)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "5:20", (0, 2)),
-            ("INDIVIDUAL JOSÉ · 2:20–4:10", GUIONES / "guion_individual_jose_9m.md", "2:20", None),
-        ],
     )
     return s
 
@@ -976,14 +837,6 @@ def abstencion(prs):
         8.5,
         GRIS_CLARO,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 5:20–6:40 (abstención)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "5:20", (2, 9)),
-            ("INDIVIDUAL JOSÉ · 4:10–5:10", GUIONES / "guion_individual_jose_9m.md", "4:10", None),
-        ],
-    )
     return s
 
 
@@ -1017,14 +870,6 @@ def pruebas(prs):
         11,
         GRIS,
         line=1.2,
-    )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 6:40–7:20 · José", GUIONES / "guion_sustentacion_integrado_9m30s.md", "6:40", None),
-            ("INDIVIDUAL JOSÉ · 5:10–6:10", GUIONES / "guion_individual_jose_9m.md", "5:10", None),
-        ],
     )
     return s
 
@@ -1096,14 +941,6 @@ def despliegue(prs):
         GRIS,
         line=1.18,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 7:20–8:30 · José", GUIONES / "guion_sustentacion_integrado_9m30s.md", "7:20", None),
-            ("INDIVIDUAL JOSÉ · 6:10–8:00", GUIONES / "guion_individual_jose_9m.md", "6:10", None),
-        ],
-    )
     return s
 
 
@@ -1137,14 +974,6 @@ def dominio(prs):
         TINTA,
         line=1.2,
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 8:30–9:30 (dominio)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "8:30", (0, 1)),
-            ("INDIVIDUAL JOSÉ · 8:00–9:00", GUIONES / "guion_individual_jose_9m.md", "8:00", None),
-        ],
-    )
     return s
 
 
@@ -1177,15 +1006,6 @@ def cierre(prs):
         10.5,
         "9FB3C6",
     )
-
-    notas(
-        s,
-        [
-            ("INTEGRADO · 8:30–9:30 (cierre)", GUIONES / "guion_sustentacion_integrado_9m30s.md", "8:30", (1, 9)),
-            ("INDIVIDUAL JOSÉ · 9:00–9:30", GUIONES / "guion_individual_jose_9m.md", "9:00", None),
-            ("INDIVIDUAL ARIEL · 8:20–9:20", GUIONES / "guion_individual_ariel_9m.md", "8:20", None),
-        ],
-    )
     return s
 
 
@@ -1212,9 +1032,11 @@ def main():
     dominio(prs)
     cierre(prs)
 
+    guion = guion_por_diapositiva()
     for i, slide in enumerate(prs.slides, start=1):
         if i not in (1, 10, 17):
             pie(slide, i)
+        slide.notes_slide.notes_text_frame.text = guion[i]
 
     prs.save(SALIDA)
     print(f"Guardado: {SALIDA.name} · {len(prs.slides)} diapositivas")
