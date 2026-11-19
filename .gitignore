@@ -10,3 +10,17 @@ datos/
 .env
 deploy/.env
 .release.env
+
+# LaTeX: artefactos de compilación (el PDF y las fuentes sí se versionan)
+informe/*.aux
+informe/*.log
+informe/*.bbl
+informe/*.blg
+informe/*.out
+informe/*.toc
+informe/*.fls
+informe/*.fdb_latexmk
+informe/*.synctex.gz
+
+# Revisión visual temporal del informe
+tmp_revision/
