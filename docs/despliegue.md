@@ -14,6 +14,20 @@ Internet → Traefik :443 (ACME) → red 'web' → residuos-2184:8000
 No hay base de datos, login ni credenciales de aplicación. El contenedor **no
 publica puertos**: solo lo alcanza Traefik por la red `web`.
 
+## 0. Estado en producción (19 nov 2026)
+
+| | |
+|---|---|
+| URL | **https://residuos.open-laboratories.com** |
+| Imagen | `ghcr.io/ariel-david-collab/residuos-2184:sha-3b87c8a` (pineada en `.release.env`) |
+| Contenedor | `residuos-2184`, `healthy`, red `web`, sin puertos publicados |
+| Certificado | Let's Encrypt, `CN=residuos.open-laboratories.com`, válido hasta 17 feb 2027 |
+| HTTP | `301` → HTTPS (middleware `security-headers@file`) |
+
+Verificado por HTTPS: `/api/health` → `{"ok":true,"modelo":"modelB_improved","clases":9}`,
+`/api/catalogo` publica τ = 0,63 y las métricas, la raíz responde `200` y
+`/api/predict` devuelve bolsa y top-3.
+
 ## 1. Archivos de despliegue
 
 | Archivo | Rol |
@@ -75,11 +89,19 @@ agrega en el paso 3.5.
 ```bash
 cp /home/morfeo/deploy-residuos/.env.example /tmp/residuos.env
 nano /tmp/residuos.env                 # DOMINIO real, sin https:// ni barra final
-sudo bash /home/morfeo/scripts/secrets/import-env.sh residuos/prod /tmp/residuos.env
+bash /home/morfeo/scripts/secrets/import-env.sh residuos/prod /tmp/residuos.env
 rm -f /tmp/residuos.env
 ```
 
-`import-env.sh` verifica el round-trip por sha256 antes de dar OK.
+Contenido real en producción:
+
+```
+DOMINIO=residuos.open-laboratories.com
+TZ=America/Bogota
+```
+
+`import-env.sh` verifica el round-trip por sha256 antes de dar OK (el token de
+import lo lee `morfeo`, no hace falta sudo).
 
 ### 3.4 Registrar el archivo en `apps.conf`
 
@@ -91,6 +113,12 @@ GID=$(getent group deploy-residuos | cut -d: -f3)
 echo "residuos/prod|/home/morfeo/residuos/.env|640|$GID" \
   | sudo tee -a /home/morfeo/scripts/secrets/apps.conf
 sudo bash /home/morfeo/scripts/secrets/sync-secrets.sh
+```
+
+En este VPS el gid resultó `982`, así que la línea quedó:
+
+```
+residuos/prod|/home/morfeo/residuos/.env|640|982
 ```
 
 Verificar que el usuario de deploy puede leerlo:
@@ -154,6 +182,10 @@ El wrapper hace `docker pull`, escribe `RESIDUOS_IMAGE_TAG` en
 `/home/morfeo/residuos/.release.env`, recrea el contenedor y espera hasta 96 s
 a que `https://<DOMINIO>/api/health` responda.
 
+Primer deploy real (19 nov 2026), con el tag `sha-3b87c8a`: el certificado se
+emitió por HTTP-01 en el intento 4 (≈24 s) y el wrapper terminó con
+`Deploy completado: residuos.open-laboratories.com @ sha-3b87c8a`.
+
 ## 5. CI/CD
 
 | Evento | Efecto |
@@ -163,7 +195,8 @@ a que `https://<DOMINIO>/api/health` responda.
 | `workflow_dispatch` con `deploy_tag` | Deploy de un tag ya publicado. |
 | pull request | Solo pruebas. |
 
-El deploy entra como `deploy-residuos`; `sshd` fuerza
+El deploy entra por un nodo efímero de Tailscale (el puerto SSH público está
+cerrado) y desde ahí como `deploy-residuos`; `sshd` fuerza
 `/usr/local/bin/residuos-deploy` y el wrapper solo acepta dos argumentos con un
 tag de la allowlist. `main` es el gate: un commit roto publica imagen pero no
 llega a producción.
@@ -175,14 +208,21 @@ git tag v1.0.0 && git push origin v1.0.0   # dispara el deploy
 ## 6. Verificación
 
 ```bash
-curl -fsS https://<DOMINIO>/api/health
+curl -fsS https://residuos.open-laboratories.com/api/health
 # {"ok":true,"modelo":"modelB_improved","clases":9}
 
-curl -fsS https://<DOMINIO>/api/catalogo | head -c 200
+curl -fsS https://residuos.open-laboratories.com/api/catalogo | head -c 200
 docker inspect -f '{{.State.Health.Status}}' residuos-2184   # healthy
 
-echo | openssl s_client -connect <DOMINIO>:443 -servername <DOMINIO> 2>/dev/null \
-  | openssl x509 -noout -issuer -dates                        # issuer = Let's Encrypt
+echo | openssl s_client -connect residuos.open-laboratories.com:443 \
+  -servername residuos.open-laboratories.com 2>/dev/null \
+  | openssl x509 -noout -issuer -subject -dates
+# issuer=C=US, O=Let's Encrypt, CN=YR1
+# subject=CN=residuos.open-laboratories.com
+
+# Predicción real
+curl -fsS -X POST -F "archivo=@muestras/plastico.jpg" -F "tau=0.63" \
+  https://residuos.open-laboratories.com/api/predict
 ```
 
 En el navegador: cargar una foto y comprobar la bolsa. La cámara exige HTTPS,

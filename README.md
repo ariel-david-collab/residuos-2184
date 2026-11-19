@@ -11,11 +11,14 @@ abstiene cuando no está seguro.
 
 ## Estado actual
 
-Fases 1 a 5 del plan cerradas. La aplicación funciona de punta a punta con el
+Fases 1 a 6 del plan cerradas. La aplicación funciona de punta a punta con el
 **Modelo B** (`models/modelB_improved.onnx`, MobileNetV3-Small ajustado sobre
 RealWaste) y el umbral τ = 0,63 que publica `models/umbral.json`. El Modelo A
 (Teachable Machine) queda en `models/modelA_tm.onnx` como referencia de la
 comparación.
+
+En producción: **https://residuos.open-laboratories.com** (Traefik + Let's
+Encrypt, contenedor `healthy`, sin puertos publicados).
 
 Sobre las 633 imágenes reservadas de `test/`:
 
