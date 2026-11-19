@@ -113,12 +113,13 @@ la imagen se consume desde GHCR y el contenedor no publica puertos.
 | `02-sitio-movil.png` | La misma página a 390×844. |
 | `03-actions.png` | Historial de GitHub Actions: pruebas, escaneo de secretos, build y publicación en GHCR. |
 | `04-ghcr.png` | Paquete público `residuos-2184` con los tags `sha-*` y `latest`. |
+| `05-run-deploy.png` | Run de `workflow_dispatch` con los tres jobs en verde: Pruebas → Imagen en GHCR → Despliegue en el VPS. |
 | `salida-deploy.txt` | Log literal del wrapper `residuos-deploy`: pull de la imagen, tag pineado en `.release.env`, recreación del contenedor y health check por HTTPS. |
 | `salida-deploy.png` | El mismo log dibujado como terminal. |
 | `salida-verificacion.txt` | Verificación en el VPS: contenedor `healthy`, sin puertos publicados, health y catálogo por HTTPS, redirección 301, certificado Let's Encrypt y una predicción real. |
 | `salida-verificacion.png` | El mismo log dibujado como terminal. |
 
-Las cuatro primeras las genera `src/capturas_despliegue.py` (Playwright sobre
+Las cinco primeras las genera `src/capturas_despliegue.py` (Playwright sobre
 las páginas públicas); los logs se dibujan con `src/capturas_consola.py`. En el
 historial de Actions quedan también los dos fallos del primer push —imagen y
 escaneo de secretos—, conservados como evidencia de la depuración del CI.

@@ -20,6 +20,7 @@ SALIDA = RAIZ / "docs" / "capturas" / "06-despliegue"
 
 SITIO = "https://residuos.open-laboratories.com"
 ACCIONES = "https://github.com/ariel-david-collab/residuos-2184/actions"
+RUN_DEPLOY = "https://github.com/ariel-david-collab/residuos-2184/actions/runs/44471900312"
 PAQUETE = "https://github.com/ariel-david-collab/residuos-2184/pkgs/container/residuos-2184"
 
 ESCRITORIO = {"width": 1440, "height": 900}
@@ -77,6 +78,10 @@ def main() -> None:
 
         abrir(page, PAQUETE, "main")
         captura(page, "04-ghcr.png")
+
+        # Run del deploy manual: imagen + despliegue, ambos en verde
+        abrir(page, RUN_DEPLOY, "text=Despliegue en el VPS")
+        captura(page, "05-run-deploy.png")
         contexto.close()
 
         navegador.close()
